@@ -17,19 +17,40 @@ firebase.initializeApp(config);
 var database = firebase.database();
 
 // 3. Adding data to the db (train name, dest., first time & frequency, etc)
-var trainName = $("#trainName").val().trim();
-var dest = $("#destination").val().trim();
-var firstTime = $("#firstTime").val().trim();
-var freqInput = $("#freqInput").val().trim();
+$("#addInputs-btn").on("click", function(event) {
+  
+  event.preventDefault();
 
+  // 3a : Store Inputs from Form
+var newTrain = $("#trainName").val().trim();
+var newDest = $("#destination").val().trim();
+var newFirstTime = $("#firstTime").val().trim();
+var newFreq = $("#freqInput").val().trim();
+
+// 3b: Creates local object for holding data
 var trainInfo = {
-  trainName = trainName;
-  destination = dest;
-  firstTrainTime = firstTime;
-  frequency = freqInput;
-}
+  trainName = newTrain;
+  destination = newDest;
+  firstTrainTime = newFirstTime;
+  frequency = newFreq;
+};
 
+// 3c: Uploads train data to the database
 database.ref().push(trainInfo);
+
+// Logs everything to console
+console.log(trainInfo.trainName);
+console.log(trainInfo.destination);
+console.log(trainInfo.firstTrainTime);
+console.log(trainInfo.frequency);
+
+// Clears all of the text-boxes
+$("#trainName").val("");
+$("#destination").val("");
+$("#firstTime")("");
+$("#freqInput").val("");
+});
+
 
 
 
