@@ -22,17 +22,17 @@ $("#addInputs-btn").on("click", function(event) {
   event.preventDefault();
 
   // 3a : Store Inputs from Form
-var newTrain = $("#trainName").val().trim();
-var newDest = $("#destination").val().trim();
-var newFirstTime = $("#firstTime").val().trim();
-var newFreq = $("#freqInput").val().trim();
+var trainName = $("#trainName").val().trim();
+var dest = $("#destination").val().trim();
+var firstTime = $("#firstTime").val().trim();
+var freqInput = $("#freqInput").val().trim();
 
 // 3b: Creates local object for holding data
-var trainInfo = {
-  trainName = newTrain;
-  destination = newDest;
-  firstTrainTime = newFirstTime;
-  frequency = newFreq;
+var newTrainInfo = {
+  trainName = trainName;
+  destination = dest;
+  firstTrainTime = firstTime;
+  frequency = freqInput;
 };
 
 // 3c: Uploads train data to the database
@@ -49,12 +49,49 @@ $("#trainName").val("");
 $("#destination").val("");
 $("#firstTime")("");
 $("#freqInput").val("");
+
+});
+
+// 4. Getting from the data from db. Create Firebase event for adding employee to the database and a row in the html when a user adds an entry
+database.ref().on("child_added", function(childSnapshot, prevChildKey) {
+
+  console.log(childSnapshot.val());
+
+  // Store everything into a variable.
+  var trainName = childSnapshot.val().trainName;
+  var destination = childSnapshot.val().destination;
+  var firstTrainTime = childSnapshot.val().firstTrainTime;
+  var frequency = childSnapshot.val().frequency;
+
+  // Log Train Info in Console
+  console.log(trainName);
+  console.log(destination);
+  console.log(firstTrainTime);
+  console.log(frequency);
+
+  // Prettify the employee start
+  var empStartPretty = moment.unix(firstTrainTime).format("HH:mm");
+
+  // Calculate the months worked using hardcore math
+  // To calculate the months worked
+  var empMonths = moment().diff(moment.unix(empStart, "X"), "months");
+  console.log(empMonths);
+
+  // Calculate the total billed rate
+  var empBilled = empMonths * empRate;
+  console.log(empBilled);
+
+  // 5. Displaying on the html page
+  $("#train-table > tbody").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" +
+  firstTrainTime + "</td><td>" + frequency + "</td></tr>");
 });
 
 
 
 
-// 4. Getting from the data from db
 
 
-// 5. Displaying on the html page
+
+
+
+
