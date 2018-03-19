@@ -1,1 +1,14 @@
 /* Custom Styles */
+
+.navbar {
+    margin-bottom: 0;
+    padding: 15px 25px;
+}
+
+.navbar-brand {
+    float: none;
+}
+
+.jumbotron h1{
+    font-size: 3em; 
+}
